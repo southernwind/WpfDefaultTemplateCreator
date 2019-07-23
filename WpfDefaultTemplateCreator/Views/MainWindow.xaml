@@ -13,6 +13,9 @@
 		<vm:MainWindowViewModel />
 	</Window.DataContext>
 	<Grid>
-		<TextBlock Text="{Binding Xaml, Mode=OneWay}" />
+		<TextBox
+			IsReadOnly="True"
+			Text="{Binding Xaml, Mode=OneWay}"
+			VerticalScrollBarVisibility="Auto" />
 	</Grid>
 </Window>
