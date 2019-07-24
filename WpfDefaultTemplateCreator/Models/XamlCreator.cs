@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Markup;
@@ -7,8 +8,10 @@ using System.Xml;
 namespace WpfDefaultTemplateCreator.Models {
 	internal static class XamlCreator {
 		public static string Create(Type type) {
-			var control = Application.Current.FindResource(type);
-			if (control == null) {
+			object control;
+			try {
+				control = Application.Current.FindResource(type);
+			} catch (ResourceReferenceKeyNotFoundException) {
 				return null;
 			}
 
@@ -21,6 +24,16 @@ namespace WpfDefaultTemplateCreator.Models {
 			using var xtw = XmlWriter.Create(sb, xws);
 			XamlWriter.Save(control, xtw);
 			return sb.ToString();
+		}
+
+		public static Type[] GetControlList() {
+			return
+				AppDomain
+					.CurrentDomain
+					.GetAssemblies()
+					.SelectMany(x => x.GetTypes())
+					.Where(x => x.IsSubclassOf(typeof(FrameworkElement)))
+					.ToArray();
 		}
 	}
 }
