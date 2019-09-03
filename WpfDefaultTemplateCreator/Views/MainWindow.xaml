@@ -13,21 +13,29 @@
 		<vm:MainWindowViewModel />
 	</Window.DataContext>
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" MinWidth="200" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
+		<TextBox Grid.Column="0" Text="{Binding SearchWord.Value, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
 		<ListBox
+			Grid.Row="1"
 			Grid.Column="0"
 			ItemsSource="{Binding Controls}"
 			SelectedItem="{Binding SelectedControl.Value}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="{Binding}" />
+					<TextBlock Text="{Binding Value}" />
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ListBox>
 		<TextBox
+			Grid.Row="0"
+			Grid.RowSpan="2"
 			Grid.Column="1"
 			IsReadOnly="True"
 			Text="{Binding Xaml.Value, Mode=OneWay}"
